@@ -1,21 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
 
-// import { BrowserRouter, Route, Routes } from "react-router-dom"
+// import { useNavigate } from "react-router-dom"
 // import Home from './components/Home'
 
 
 
-
 function RegisterLogin() {
-
-
-
-    // const [registerMail, setregisterMail] = useState("");
-    // const [registerPswd, setregisterPswd] = useState("");
-    const [loginMail, setloginMail] = useState("");
-    const [loginPswd, setloginPswd] = useState("");
 
     const [userLoggedIn, setuserLoggedIn] = useState({})
 
@@ -35,7 +27,6 @@ function RegisterLogin() {
         }
     }
 
-    let user = null;
 
     const login = async () => {
         try {
@@ -94,4 +85,4 @@ function RegisterLogin() {
 }
 
 
-export default { RegisterLogin, user };
+export default RegisterLogin;
