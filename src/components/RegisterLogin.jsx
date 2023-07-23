@@ -21,6 +21,7 @@ function RegisterLogin() {
             const registerMail = document.getElementById("registerMailId").value;
             const registerPswd = document.getElementById("registerPswdId").value;
             const user = await createUserWithEmailAndPassword(auth, registerMail, registerPswd); //create a user and log him in
+            return user;
             console.log(user)
         } catch (error) {
             console.log(error.message)
@@ -76,6 +77,7 @@ function RegisterLogin() {
 
                 <h4> User Logged In: </h4>
                 {userLoggedIn?.email}
+                <br />
 
                 <button onClick={logout}> Sign Out </button>
             </div>
@@ -85,4 +87,4 @@ function RegisterLogin() {
 }
 
 
-export default RegisterLogin;
+// export default RegisterLogin;
