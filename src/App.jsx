@@ -97,10 +97,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="home" element={<Home />} />
-        <Route path="/" element={<RegisterLogin />} />
+        {/* <Route path="home" element={<Home />} />
+        <Route path="/" element={<RegisterLogin />} /> */}
 
-        {/* <Route exact path="/" render={() => isLoggedIn() ? <Home /> : <RegisterLogin />} /> */}
+        <Route exact path="/" render={() => userLoggedIn() ? <Home /> : <RegisterLogin />} />
 
 
 
