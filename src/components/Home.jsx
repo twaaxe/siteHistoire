@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'; //utilisé pour specifier ou et comment stocker les images    -   storage seem to be a service (can't change it as a variable)
-import { storage } from './firebase';
+// import { storage } from '../firebase.js';
 import { v4 } from 'uuid';
 
 // import Image from 'react-bootstrap/Image';
@@ -106,3 +106,5 @@ function Home() {
         </>
     )
 }
+
+export default Home;
