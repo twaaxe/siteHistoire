@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "./firebase";
 
 function App() {
 
 
-  const [registerMail, setregisterMail] = useState("");
-  const [registerPswd, setregisterPswd] = useState("");
+  // const [registerMail, setregisterMail] = useState("");
+  // const [registerPswd, setregisterPswd] = useState("");
   const [loginMail, setloginMail] = useState("");
   const [loginPswd, setloginPswd] = useState("");
 
@@ -21,14 +21,26 @@ function App() {
 
   const register = async () => {
     try {
+      const registerMail = document.getElementById("registerMailId").value;
+      const registerPswd = document.getElementById("registerPswdId").value;
+
       const user = await createUserWithEmailAndPassword(auth, registerMail, registerPswd); //create a user and log him in
-      console.log(user) //contain objet? all info about user 
     } catch (error) {
       console.log(error.message)
     }
   }
 
   const login = async () => {
+    try {
+      const loginMail = document.getElementById("loginMailId").value;
+      const loginPswd = document.getElementById("loginPswdId").value;
+      const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); //create a user and log him in
+      console.log(user)
+      console.log(loginMail)
+      console.log(loginPswd) //contain objet? all info about user 
+    } catch (error) {
+      console.log(error.message)
+    }
 
   }
 
@@ -41,17 +53,13 @@ function App() {
     <div className="App">
       <div>
         <h3> Register User </h3>
-        <input
+        <input id="registerMailId"
           placeholder="Email..."
-          onChange={(event) => {
-            setregisterMail(event.target.value);
-          }}
+
         />
-        <input
+        <input id="registerPswdId"
           placeholder="Password..."
-          onChange={(event) => {
-            setregisterPswd(event.target.value);
-          }}
+
         />
 
         <button onClick={register}> Create User</button>
@@ -59,17 +67,11 @@ function App() {
 
       <div>
         <h3> Login </h3>
-        <input
+        <input id="loginMailId"
           placeholder="Email..."
-          onChange={(event) => {
-            setloginMail(event.target.value);
-          }}
         />
-        <input
+        <input id="loginPswdId"
           placeholder="Password..."
-          onChange={(event) => {
-            setloginPswd(event.target.value);
-          }}
         />
 
         <button onClick={login}> Login</button>
