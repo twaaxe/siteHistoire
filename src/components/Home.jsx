@@ -49,32 +49,6 @@ function Home() {
     }, []);
 
 
-
-    // useEffect(() => {
-    //   listAll(folderUrl)
-    //     .then((response) => {
-    //       const promises = response.items.map((item) => {
-    //         return getDownloadURL(item);
-    //       });
-
-    //       Promise.all(promises)
-    //         .then((urlsArray) => {
-    //           const uniqueUrls = [...new Set(urlsArray.flat())];
-    //           setImageList((prev) => [...prev, ...uniqueUrls]);
-
-    //         })
-    //         .catch((error) => {
-    //           console.log("Erreur lors de la récupération des URL de téléchargement :", error);
-    //         });
-    //     })
-    //     .catch((error) => {
-    //       console.log("Erreur lors de la récupération des éléments :", error);
-    //     });
-    // }, []);
-
-
-
-
     return (
         <>
             <div className='Home'>

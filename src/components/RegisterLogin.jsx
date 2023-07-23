@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 
 // import { BrowserRouter, Route, Routes } from "react-router-dom"
 // import Home from './components/Home'
@@ -35,11 +35,13 @@ function RegisterLogin() {
         }
     }
 
+    let user = null;
+
     const login = async () => {
         try {
             const loginMail = document.getElementById("loginMailId").value;
             const loginPswd = document.getElementById("loginPswdId").value;
-            const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); //create a user and log him in
+            user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); //create a user and log him in
             console.log(user) //contain objet? all info about user 
         } catch (error) {
             console.log(error.message)
@@ -52,25 +54,18 @@ function RegisterLogin() {
 
     }
 
-    const isLoggedIn = () => {
-        if (user) {
-            return true;
-        }
-    }
-
-
     return (
         <>
+
             <div className="RegisterLogin">
                 <div>
                     <h3> Register User </h3>
                     <input id="registerMailId"
                         placeholder="Email..."
-
                     />
+
                     <input id="registerPswdId"
                         placeholder="Password..."
-
                     />
 
                     <button onClick={register}> Create User</button>
@@ -99,4 +94,4 @@ function RegisterLogin() {
 }
 
 
-export default RegisterLogin;
+export default { RegisterLogin, user };
