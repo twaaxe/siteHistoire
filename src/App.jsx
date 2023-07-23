@@ -10,10 +10,11 @@ import { useState } from 'react'
 
 
 
+const [userLoggedIn, setuserLoggedIn] = {};
 
 function RegisterLogin() {
 
-  const [userLoggedIn, setuserLoggedIn] = useState({})
+  [userLoggedIn, setuserLoggedIn] = useState({})
 
   onAuthStateChanged(auth, (currentUser) => {
     setuserLoggedIn(currentUser)
@@ -100,8 +101,8 @@ function App() {
         {/* <Route path="home" element={<Home />} />
         <Route path="/" element={<RegisterLogin />} /> */}
 
-        <Route exact path="/" render={() => userLoggedIn() ? <Home /> : <RegisterLogin />} />
-
+        <Route exact path="/" render={() => userLoggedIn ? <Home /> : <RegisterLogin />} />
+        {console.log(userLoggedIn)}
 
 
 
