@@ -10,7 +10,7 @@ import { useState } from 'react'
 
 
 
-const [userLoggedIn, setuserLoggedIn] = {};
+let [userLoggedIn, setuserLoggedIn] = [false];
 
 function RegisterLogin() {
 
@@ -103,15 +103,6 @@ function App() {
 
         <Route exact path="/" render={() => userLoggedIn ? <Home /> : <RegisterLogin />} />
         {console.log(userLoggedIn)}
-
-
-
-
-
-
-
-
-
 
       </Routes>
     </BrowserRouter>
