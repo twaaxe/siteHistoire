@@ -18,15 +18,21 @@ function Home() {
     const [imageUpload, setImageUlpoad] = useState(null)
 
     const uploadImage = (e) => {         //upload the image to the database
-        if (imageUpload == null) return;
+        if (imageUpload == null) {
+            alert("no image to upload");
+            return
+        } else {
 
-        const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase) and add a save it in the path as 2e parameter (create folder images)
+            const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase) and add a save it in the path as 2e parameter (create folder images)
 
-        uploadBytes(imageRef, imageUpload).then(() => {     //actually upload the image in the database
-            alert("Image Sent")
-        })
+            uploadBytes(imageRef, imageUpload).then(() => {     //actually upload the image in the database
+                alert("Image Sent")
+            })
 
-        document.getElementById("submitButton").value = null
+            document.getElementById("submitButton").value = null
+            console.log(imageUpload)
+            console.log(imageRef)
+        }
 
     }
 

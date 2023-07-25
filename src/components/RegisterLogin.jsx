@@ -2,9 +2,6 @@ import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
 
-// import { useNavigate } from "react-router-dom"
-// import Home from './components/Home'
-
 
 
 function RegisterLogin() {

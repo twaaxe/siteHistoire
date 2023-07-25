@@ -8,13 +8,9 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWith
 import { useState } from 'react'
 
 
-
-
-let [userLoggedIn, setuserLoggedIn] = [false];
-
 function RegisterLogin() {
 
-  [userLoggedIn, setuserLoggedIn] = useState({})
+  const [userLoggedIn, setuserLoggedIn] = useState({})
 
   onAuthStateChanged(auth, (currentUser) => {
     setuserLoggedIn(currentUser)
@@ -98,11 +94,20 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="home" element={<Home />} />
-        <Route path="/" element={<RegisterLogin />} /> */}
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<RegisterLogin />} /> */}
 
-        <Route exact path="/" render={() => userLoggedIn ? <Home /> : <RegisterLogin />} />
-        {console.log(userLoggedIn)}
+        {/* <Route exact path="/" render={() => userLoggedIn ? <Home /> : <RegisterLogin />} /> */}
+
+
+
+
+
+
+
+
+
+
 
       </Routes>
     </BrowserRouter>
