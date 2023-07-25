@@ -3,6 +3,9 @@ import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'; //
 import { storage } from "../firebase";
 import { v4 } from 'uuid';
 
+import { auth } from "../firebase";
+
+
 // import Image from 'react-bootstrap/Image';
 
 const FluidExample = (props) => {
@@ -30,14 +33,15 @@ function Home() {
             })
 
             document.getElementById("submitButton").value = null
-            console.log(imageUpload)
-            console.log(imageRef)
         }
 
     }
 
 
     useEffect(() => {
+
+        setImageList([]);
+
         listAll(folderUrl)
             .then((response) => {
 
@@ -52,12 +56,19 @@ function Home() {
     }, []);
 
 
+    const logout = async () => {
+        await signOut(auth)
+
+    }
+
+
     return (
         <>
             <div className='Home'>
                 <input type="file" id="submitButton" onChange={(even) => { setImageUlpoad(even.target.files[0]) }} />   {/*selection  */}
 
                 <button onClick={uploadImage}>Upload Image</button>     {/* envoi */}
+                <button onClick={logout}> Sign Out </button>
             </div>
 
             <div style={{

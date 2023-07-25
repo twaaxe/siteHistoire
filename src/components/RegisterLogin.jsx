@@ -19,7 +19,6 @@ function RegisterLogin() {
             const registerPswd = document.getElementById("registerPswdId").value;
             const user = await createUserWithEmailAndPassword(auth, registerMail, registerPswd); //create a user and log him in
             return user;
-            console.log(user)
         } catch (error) {
             console.log(error.message)
         }
@@ -31,7 +30,7 @@ function RegisterLogin() {
             const loginMail = document.getElementById("loginMailId").value;
             const loginPswd = document.getElementById("loginPswdId").value;
             user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); //create a user and log him in
-            console.log(user) //contain objet? all info about user 
+            // console.log(user) //contain objet? all info about user 
         } catch (error) {
             console.log(error.message)
         }

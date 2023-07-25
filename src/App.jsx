@@ -36,10 +36,10 @@ function RegisterLogin() {
       const loginPswd = document.getElementById("loginPswdId").value;
       const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); // log him in
       console.log(user) //contain objet? all info about user 
+      return user;
     } catch (error) {
       console.log(error.message)
     }
-    return user;
 
 
   }
