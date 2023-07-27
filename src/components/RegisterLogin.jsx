@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
+import '../App.css'
 
 
 
@@ -83,4 +84,4 @@ function RegisterLogin() {
 }
 
 
-// export default RegisterLogin;
+export default RegisterLogin;

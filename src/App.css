@@ -1,0 +1,30 @@
+.Home {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+img {
+    width: 300px;
+    margin: 10px auto;
+
+}
+
+
+
+
+.rowCentredwContent {
+    display: flex;
+    margin: 1% auto;
+    padding: 1%;
+    flex-direction: column;
+    align-items: center;
+    max-width: 10%;
+}
+
+
+.rowCentredwContent>* {
+    margin: 2% 1%;
+}

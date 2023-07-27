@@ -4,7 +4,7 @@ import { storage } from "../firebase";
 import { v4 } from 'uuid';
 
 import { auth } from "../firebase";
-
+import '../App.css'
 
 // import Image from 'react-bootstrap/Image';
 
@@ -26,19 +26,24 @@ function Home() {
             return
         } else {
 
-            const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase) and add a save it in the path as 2e parameter (create folder images)
+            const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase)  add and save it in the path as 2e parameter (create folder images)
 
-            uploadBytes(imageRef, imageUpload).then(() => {     //actually upload the image in the database
-                alert("Image Sent")
-            })
 
-            document.getElementById("submitButton").value = null
-        }
+            uploadBytes(imageRef, imageUpload).then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((url) => {
+                    setImageList((prev) => [...prev, url]);
+                });
+            });
+        };
 
+        document.getElementById("submitButton").value = null
     }
 
 
+
+
     useEffect(() => {
+
 
         setImageList([]);
 
@@ -65,31 +70,28 @@ function Home() {
     return (
         <>
             <div className='Home'>
-                <input type="file" id="submitButton" onChange={(even) => { setImageUlpoad(even.target.files[0]) }} />   {/*selection  */}
 
-                <button onClick={uploadImage}>Upload Image</button>     {/* envoi */}
-                <button onClick={logout}> Sign Out </button>
-            </div>
+                <div className='rowCentredwContent'>
+                    <input type="file" id="submitButton" onChange={(even) => { setImageUlpoad(even.target.files[0]) }} />   {/*selection  */}
+                    <button onClick={uploadImage}>Upload Image</button>     {/* envoi */}
+                    <button onClick={logout}> Sign Out </button>
+                </div>
 
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
 
-            }}>
-                {imageList.map((url) => {
+                <div>
+                    {imageList.map((url) => {
 
-                    return <>
-                        <div className='imgContainer' >
-                            <FluidExample url={url} className="imgInside" />
-                        </div>
+                        return <>
+                            <div className='imgContainer' >
+                                <FluidExample url={url} className="imgInside" />
+                            </div>
 
-                    </>
-                })}
+                        </>
+                    })}
 
 
 
+                </div>
             </div>
         </>
     )
