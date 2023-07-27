@@ -1,5 +1,9 @@
+body {
+    margin: 0;
+}
+
 .Home {
-    width: 100vw;
+    width: 100%;
     height: auto;
     display: flex;
     align-items: center;
@@ -11,8 +15,6 @@ img {
     margin: 10px auto;
 
 }
-
-
 
 
 .rowCentredwContent {

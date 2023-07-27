@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-// import '../style/Header.css'
+import '../style/Header.css'
 
 
 export default function Header() {
@@ -8,26 +8,13 @@ export default function Header() {
     return (
 
         <>
-            <nav className="header"
-                style={{
-                    height: '100px',
-                    width: '100vw',
-                    backgroundColor: 'red',
-                    color: 'white', // Couleur du texte (par exemple blanc ici)
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-
-                <h1>azerty</h1>
+            <nav className="header">
 
                 <Link to="/home">
-                    <div>
+                    <div className="">
                         <span>Home</span>
                     </div>
                 </Link>
-
-
 
                 <Link to="registerLogin" className="">
                     <div className="">
