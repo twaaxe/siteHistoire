@@ -82,7 +82,7 @@ function Home() {
                     {imageList.map((url) => {
 
                         return <>
-                            <div className='imgContainer' >
+                            <div className='rowCentredwContent' >
                                 <FluidExample url={url} className="imgInside" />
                             </div>
 
