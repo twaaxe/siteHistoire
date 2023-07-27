@@ -1,11 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from './components/Home'
-// import RegisterLogin from './components/RegisterLogin'
-// import user from './components/RegisterLogin'
 import { auth } from "./firebase";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
-
 import { useState } from 'react'
+import Header from "./components/Header";
+
+// import RegisterLogin from './components/RegisterLogin'
+// import user from './components/RegisterLogin'
+
+
 
 
 function RegisterLogin() {
@@ -93,9 +96,10 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        {/* <Route path="/" element={<RegisterLogin />} /> */}
+        <Route path="Home" element={<Home />} />
+        <Route path="RegisterLogin" element={<RegisterLogin />} />
 
         {/* <Route exact path="/" render={() => userLoggedIn ? <Home /> : <RegisterLogin />} /> */}
 
