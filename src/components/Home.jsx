@@ -5,6 +5,8 @@ import { signOut } from 'firebase/auth';
 import { v4 } from 'uuid';
 import '../style/App.css'
 
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -14,6 +16,8 @@ const FluidExample = (props) => {
 
 
 function Home() {
+
+    const navigate = useNavigate()
 
     const folderUrl = ref(storage, '/images')
 
@@ -28,7 +32,7 @@ function Home() {
             const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase)  add and save it in the path as 2e parameter (create folder images)
             uploadBytes(imageRef, imageUpload).then((snapshot) => {
                 getDownloadURL(snapshot.ref).then((url) => {
-                    // setImageList((prev) => [...prev, url]);
+                    setImageList((prev) => [...prev, url]);
 
                 });
             });
@@ -38,19 +42,27 @@ function Home() {
     }
 
 
+    const authArray = Object.entries(auth);
 
 
     useEffect(() => {
-        setImageList([]);
-        listAll(folderUrl)
-            .then((response) => {
 
-                response.items.forEach((item) => {
-                    getDownloadURL(item).then((url) => {
-                        setImageList((prev) => [...prev, url]);
+        if (!authArray[4][1]) {
+            alert('YOU ARE NOT LOGGED IN --> Login page')
+            navigate('/RegisterLogin')
+        } else {
+            setImageList([]);
+            listAll(folderUrl)
+                .then((response) => {
+
+                    response.items.forEach((item) => {
+                        getDownloadURL(item).then((url) => {
+                            setImageList((prev) => [...prev, url]);
+                        });
                     });
-                });
-            })
+                })
+        }
+
     }, []);
 
 
@@ -58,18 +70,10 @@ function Home() {
         await signOut(auth)
 
     }
-    const authArray = Object.entries(auth);
 
 
     return (
         <>
-            {
-
-                // authArray === null ? oui : non 
-
-
-            }
-
             <div className='Home'>
 
                 <div className='rowCentredwContent'>
@@ -80,22 +84,14 @@ function Home() {
 
 
                 <div>
-                    {
-                        // authArray.map((item) => {
-                        console.log(authArray[4][1])
-                        // })
-                    }
-                    {imageList.map((url) => {
 
+                    {imageList.map((url) => {
                         return <>
                             <div className='rowCentredwContent' >
                                 <FluidExample url={url} className="imgInside" />
                             </div>
-
                         </>
                     })}
-
-
 
                 </div>
             </div >

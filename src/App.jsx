@@ -13,9 +13,6 @@ function App() {
         <Route path="Home" element={<Home />} />
         <Route path="RegisterLogin" element={<RegisterLogin />} />
 
-        {/* <Route exact path="/" render={() => userLoggedIn ? <Home /> : <RegisterLogin />} /> */}
-
-
       </Routes>
     </BrowserRouter>
 

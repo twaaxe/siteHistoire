@@ -1,16 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
 import '../style/App.css'
+import { useNavigate } from 'react-router-dom';
 
 
 
 function RegisterLogin() {
+    const navigate = useNavigate()
 
     const [userLoggedIn, setuserLoggedIn] = useState({})
-
     onAuthStateChanged(auth, (currentUser) => {
         setuserLoggedIn(currentUser)
+        if (currentUser) {
+            navigate('/Home')
+
+        }
     })
 
 
@@ -19,8 +24,9 @@ function RegisterLogin() {
             const registerMail = document.getElementById("registerMailId").value;
             const registerPswd = document.getElementById("registerPswdId").value;
             const user = await createUserWithEmailAndPassword(auth, registerMail, registerPswd); //create a user and log him in
-            return user;
+            window.location.reload(); // Rafraîchit la page actuelle
             console.log(user)
+            return user;
         } catch (error) {
             console.log(error.message)
         }
@@ -32,7 +38,6 @@ function RegisterLogin() {
             const loginMail = document.getElementById("loginMailId").value;
             const loginPswd = document.getElementById("loginPswdId").value;
             const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); // log him in
-            console.log(user) //contain objet? all info about user 
             return user;
         } catch (error) {
             console.log(error.message)
@@ -43,7 +48,7 @@ function RegisterLogin() {
 
     const logout = async () => {
         await signOut(auth)
-
+        window.location.reload();
     }
 
     return (
