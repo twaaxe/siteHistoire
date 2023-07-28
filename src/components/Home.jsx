@@ -48,8 +48,13 @@ function Home() {
     useEffect(() => {
 
         if (!authArray[4][1]) {
-            alert('YOU ARE NOT LOGGED IN --> Login page')
-            navigate('/RegisterLogin')
+            const showAlertAndNavigate = async () => {
+                alert('YOU ARE NOT LOGGED IN --> Login page');
+                await new Promise((resolve) => setTimeout(resolve, 3200));
+                navigate('/RegisterLogin');
+            };
+
+            showAlertAndNavigate();
         } else {
             setImageList([]);
             listAll(folderUrl)
@@ -68,6 +73,7 @@ function Home() {
 
     const logout = async () => {
         await signOut(auth)
+        navigate('/RegisterLogin');
 
     }
 

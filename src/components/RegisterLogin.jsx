@@ -10,6 +10,7 @@ function RegisterLogin() {
     const navigate = useNavigate()
 
     const [userLoggedIn, setuserLoggedIn] = useState({})
+    
     onAuthStateChanged(auth, (currentUser) => {
         setuserLoggedIn(currentUser)
         if (currentUser) {
