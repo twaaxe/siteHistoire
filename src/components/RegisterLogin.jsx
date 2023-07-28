@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
 import '../style/App.css'
-import { useNavigate } from "react-router-dom";
 
 
 
@@ -21,6 +20,7 @@ function RegisterLogin() {
             const registerPswd = document.getElementById("registerPswdId").value;
             const user = await createUserWithEmailAndPassword(auth, registerMail, registerPswd); //create a user and log him in
             return user;
+            console.log(user)
         } catch (error) {
             console.log(error.message)
         }
@@ -31,11 +31,13 @@ function RegisterLogin() {
         try {
             const loginMail = document.getElementById("loginMailId").value;
             const loginPswd = document.getElementById("loginPswdId").value;
-            user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); //create a user and log him in
-            useNavigate("/home");
+            const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); // log him in
+            console.log(user) //contain objet? all info about user 
+            return user;
         } catch (error) {
             console.log(error.message)
         }
+
 
     }
 
