@@ -10,7 +10,7 @@ function RegisterLogin() {
     const navigate = useNavigate()
 
     const [userLoggedIn, setuserLoggedIn] = useState({})
-    
+
     onAuthStateChanged(auth, (currentUser) => {
         setuserLoggedIn(currentUser)
         if (currentUser) {
@@ -55,8 +55,8 @@ function RegisterLogin() {
     return (
         <>
 
-            <div className="RegisterLogin">
-                <div>
+            <div className="RegisterLogin d-flex flex-column ">
+                <div className='Register '>
                     <h3> Register User </h3>
                     <input id="registerMailId"
                         placeholder="Email..."
@@ -65,11 +65,12 @@ function RegisterLogin() {
                     <input id="registerPswdId"
                         placeholder="Password..."
                     />
-
-                    <button onClick={register}> Create User</button>
+                    <div className='divButton d-flex flex-column mx-5 '>
+                        <button onClick={register}> Create User</button>
+                    </div>
                 </div>
 
-                <div>
+                <div className='Login'>
                     <h3> Login </h3>
                     <input id="loginMailId"
                         placeholder="Email..."
@@ -78,14 +79,20 @@ function RegisterLogin() {
                         placeholder="Password..."
                     />
 
-                    <button onClick={login}> Login</button>
+                    <div className='divButton d-flex flex-column mx-5'>
+                        <button onClick={login}> Login</button>
+                    </div>
                 </div>
-
-                <h4> User Logged In: </h4>
-                {userLoggedIn?.email}
                 <br />
-
-                <button onClick={logout}> Sign Out </button>
+                <div className=''>
+                    <div>
+                        <h4 className='fs-6'> User Logged In: </h4>
+                        <span>{userLoggedIn?.email}</span>
+                    </div>
+                    <div className='divButton d-flex flex-column mx-5'>
+                        <button onClick={logout}> Sign Out </button>
+                    </div>
+                </div>
             </div>
         </>
 

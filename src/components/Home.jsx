@@ -49,8 +49,8 @@ function Home() {
 
         if (!authArray[4][1]) {
             const showAlertAndNavigate = async () => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
                 alert('YOU ARE NOT LOGGED IN --> Login page');
-                await new Promise((resolve) => setTimeout(resolve, 3200));
                 navigate('/RegisterLogin');
             };
 

@@ -1,5 +1,16 @@
 body {
     margin: 0;
+    background-color: #FDF5E6 !important;
+}
+
+
+#root {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 25% auto 25% auto;
+    /* padding: 25%; */
+
 }
 
 .Home {
@@ -28,4 +39,24 @@ img {
 
 .rowCentredwContent>* {
     margin: 2% 1%;
+}
+
+
+.RegisterLogin {
+    margin: 5% auto;
+}
+
+
+.RegisterLogin>div {
+    width: 100%;
+    padding: 5%;
+}
+
+.RegisterLogin>div>input {
+    margin: 2% auto;
+    width: 100%;
+}
+
+.divButton>button {
+    width: auto;
 }
