@@ -4,6 +4,10 @@ import RegisterLogin from './components/RegisterLogin'
 import Header from "./components/Header";
 
 
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
+
+
 function App() {
 
   return (
