@@ -7,44 +7,44 @@ import '../style/App.css'
 
 import { useNavigate } from 'react-router-dom';
 
+import { Image } from './Image';
 
 
 
-const FluidExample = (props) => {
-    return <img src={props.url} />;
-}
+
+// const FluidImage = (props) => {
+//     return <img src={props.url} />;
+// }
 
 
 function Home() {
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
+    // const folderUrl = ref(storage, '/images')
+    // const [imageList, setImageList] = useState([]);
+    // const [imageUpload, setImageUlpoad] = useState(null)
 
-    const folderUrl = ref(storage, '/images')
+    // const uploadImage = (e) => {         //upload the image to the database
+    //     if (imageUpload == null) {
+    //         alert("no image to upload");
+    //         return
+    //     } else {
+    //         const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase)  add and save it in the path as 2e parameter (create folder images)
+    //         uploadBytes(imageRef, imageUpload).then((snapshot) => {
+    //             getDownloadURL(snapshot.ref).then((url) => {
+    //                 setImageList((prev) => [...prev, url]);
 
-    const [imageList, setImageList] = useState([]);
-    const [imageUpload, setImageUlpoad] = useState(null)
+    //             });
+    //         });
+    //     };
 
-    const uploadImage = (e) => {         //upload the image to the database
-        if (imageUpload == null) {
-            alert("no image to upload");
-            return
-        } else {
-            const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase)  add and save it in the path as 2e parameter (create folder images)
-            uploadBytes(imageRef, imageUpload).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImageList((prev) => [...prev, url]);
+    //     document.getElementById("submitButton").value = null
+    // }
 
-                });
-            });
-        };
 
-        document.getElementById("submitButton").value = null
-    }
 
 
     const authArray = Object.entries(auth);
-
-
     useEffect(() => {
 
         if (!authArray[4][1]) {
@@ -94,7 +94,7 @@ function Home() {
                     {imageList.map((url) => {
                         return <>
                             <div className='rowCentredwContent' >
-                                <FluidExample url={url} className="imgInside" />
+                                <FluidImage url={url} className="imgInside" />
                             </div>
                         </>
                     })}

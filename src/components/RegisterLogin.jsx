@@ -55,7 +55,7 @@ function RegisterLogin() {
     return (
         <>
 
-            <div className="RegisterLogin d-flex flex-column ">
+            {/* <div className="RegisterLogin d-flex flex-column ">
                 <div className='Register '>
                     <h3> Register User </h3>
                     <input id="registerMailId"
@@ -93,7 +93,56 @@ function RegisterLogin() {
                         <button onClick={logout}> Sign Out </button>
                     </div>
                 </div>
+            </div> */}
+
+            <div>
+                <div className="col-md-5 d-flex flex-column RegisterLogin w-25 ">
+                    <div className="container" action="" method="" id="formContainer">
+                        <div className='Register '>
+                            <h3> Register User </h3>
+
+                            <input id="registerMailId"
+                                type="email" className="form-control my-2"
+                                placeholder="Email..."
+                            />
+
+                            <input id="registerPswdId"
+                                placeholder="Password..." className='form-control my-2'
+                            />
+                            <div className='divButton d-flex flex-column my-5 '>
+                                <button onClick={register}> Create User</button>
+                            </div>
+                        </div>
+
+                        <div className='Login'>
+                            <h3> Login </h3>
+                            <input id="loginMailId" className='form-control my-2'
+                                placeholder="Email..."
+                            />
+                            <input id="loginPswdId" className='form-control my-2'
+                                placeholder="Password..."
+                            />
+
+                            <div className='divButton d-flex flex-column my-5'>
+                                <button onClick={login}> Login</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div className=''>
+                        <div>
+                            <h4 className='fs-6'> User Logged In: </h4>
+                            <span>{userLoggedIn?.email}</span>
+                        </div>
+                        <div className='divButton d-flex flex-column mx-5'>
+                            <button onClick={logout}> Sign Out </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
         </>
 
     );
