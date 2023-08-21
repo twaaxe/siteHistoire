@@ -12,7 +12,7 @@ export default function Header() {
                     <Nav.Link href="/home">Home</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link hfre="registerLogin">Register / Login</Nav.Link>
+                    <Nav.Link href="/registerLogin">Register / Login</Nav.Link>
                 </Nav.Item>
             </Nav>
         </>
