@@ -7,14 +7,15 @@ import '../style/App.css'
 
 import { useNavigate } from 'react-router-dom';
 
-// import { Image } from './Image';
+import Sidebar from './Sidebar'
+import { Container, Row, Col } from 'react-bootstrap';
+
+import { ListGroup } from 'react-bootstrap';
 
 
-
-
-// const FluidImage = (props) => {
-//     return <img src={props.url} />;
-// }
+const FluidImage = (props) => {
+    return <img src={props.url} />;
+}
 
 
 function Home() {
@@ -22,7 +23,7 @@ function Home() {
     const navigate = useNavigate()
     const folderUrl = ref(storage, '/images')
     const [imageList, setImageList] = useState([]);
-    const [imageUpload, setImageUlpoad] = useState(null)
+    const [imageUpload, setImageUpload] = useState(null)
 
     const uploadImage = (e) => {         //upload the image to the database
         if (imageUpload == null) {
@@ -41,32 +42,24 @@ function Home() {
         document.getElementById("submitButton").value = null
     }
 
+    //------------------------------------------
 
 
+    //------------------------------------------
 
-    const authArray = Object.entries(auth);
+
     useEffect(() => {
+        setImageList([]);
+        listAll(folderUrl)
+            .then((response) => {
 
-        if (!authArray[4][1]) {
-            const showAlertAndNavigate = async () => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                alert('YOU ARE NOT LOGGED IN --> Login page');
-                navigate('/RegisterLogin');
-            };
-
-            showAlertAndNavigate();
-        } else {
-            setImageList([]);
-            listAll(folderUrl)
-                .then((response) => {
-
-                    response.items.forEach((item) => {
-                        getDownloadURL(item).then((url) => {
-                            setImageList((prev) => [...prev, url]);
-                        });
+                response.items.forEach((item) => {
+                    getDownloadURL(item).then((url) => {
+                        setImageList((prev) => [...prev, url]);
                     });
-                })
-        }
+                });
+            })
+
 
     }, []);
 
@@ -80,27 +73,52 @@ function Home() {
 
     return (
         <>
-            <div className='Home'>
-
-                <div className='rowCentredwContent'>
-                    <input type="file" id="submitButton" onChange={(even) => { setImageUlpoad(even.target.files[0]) }} />   {/*selection  */}
-                    <button onClick={uploadImage}>Upload Image</button>     {/* envoi */}
-                    <button onClick={logout}> Sign Out </button>
-                </div >
 
 
-                <div>
 
-                    {imageList.map((url) => {
-                        return <>
-                            <div className='rowCentredwContent' >
-                                <FluidImage url={url} className="imgInside" />
+
+
+            <Container className="  contentContainer" style={{}}>
+                <Row>
+                    <Col className="sideBar mt-4 " xs={12} md={4}>
+
+                        <ListGroup variant="flush" className='text-center fw-semibold' >
+
+                            <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
+                                <input type="file" id="submitButton" onChange={(even) => { setImageUpload(even.target.files[0]) }} />
+                            </ListGroup.Item>
+
+                            <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
+                                <button onClick={uploadImage}>Upload Image</button>
+                            </ListGroup.Item>
+
+                            <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
+                                <button onClick={logout}> Sign Out </button>
+                            </ListGroup.Item>
+
+                        </ListGroup>
+                    </Col>
+
+                    <Col className=" mx-auto " xs={12} md={8} >
+
+                        <div className='Home'>
+                            <div>
+                                {imageList.map((url) => {
+                                    return <>
+                                        <div className='rowCentredwContent' >
+                                            <FluidImage url={url} className="imgInside" />
+                                        </div>
+                                    </>
+                                })}
+
                             </div>
-                        </>
-                    })}
+                        </div >
 
-                </div>
-            </div >
+                    </Col>
+                </Row>
+            </Container >
+
+
         </>
     )
 }

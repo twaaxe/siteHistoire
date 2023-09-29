@@ -60,3 +60,7 @@ RegisterLogin>div>input {
 .divButton>button {
     width: auto;
 }
+
+.sidebar {
+    background-color: #FDF5E6;
+}
