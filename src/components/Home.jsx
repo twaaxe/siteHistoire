@@ -1,56 +1,87 @@
+import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import { ListGroup } from 'react-bootstrap';
+
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'; //utilisé pour specifier ou et comment stocker les images    -   storage seem to be a service (can't change it as a variable)
 import { storage, auth } from "../firebase";
 import { signOut } from 'firebase/auth';
+
 import { v4 } from 'uuid';
+
+import FormText from './FormText';
+
 import '../style/App.css'
 
-import { useNavigate } from 'react-router-dom';
 
-import Sidebar from './Sidebar'
-import { Container, Row, Col } from 'react-bootstrap';
-
-import { ListGroup } from 'react-bootstrap';
-
-
-const FluidImage = (props) => {
-    return <img src={props.url} />;
-}
 
 
 function Home() {
 
+
     const navigate = useNavigate()
-    const folderUrl = ref(storage, '/images')
+    const folderUrlImg = ref(storage, '/images')
+    const folderUrlTxt = ref(storage, '/textes')
     const [imageList, setImageList] = useState([]);
+    const [textList, setTextList] = useState([])
     const [imageUpload, setImageUpload] = useState(null)
+    const [inputValue, setInputValue] = useState('');
 
-    const uploadImage = (e) => {         //upload the image to the database
-        if (imageUpload == null) {
-            alert("no image to upload");
-            return
-        } else {
-            const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);//access the storage(firebase)  add and save it in the path as 2e parameter (create folder images)
-            uploadBytes(imageRef, imageUpload).then((snapshot) => {
-                getDownloadURL(snapshot.ref).then((url) => {
-                    setImageList((prev) => [...prev, url]);
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
 
-                });
-            });
-        };
 
-        document.getElementById("submitButton").value = null
+    const FluidImage = (props) => {
+        return <img src={props.url} />;
     }
 
+
+
+    const uploadImage = (e) => {         //upload the image to the database
+
+        if (imageUpload == null || inputValue == null) {
+            alert("Both image and text are required.");
+            return;
+        }
+
+        const postId = v4()
+        const imageUploadName = imageUpload.name + "-" + postId;
+        const textUpload = inputValue + "-" + postId
+
+        try {
+
+            alert('Image Upload Name:' + imageUploadName);
+            alert('Text Upload Name:' + textUpload);
+
+            // Téléchargement de l'image
+            const imageRef = ref(storage, `images/${imageUploadName}`);
+            uploadBytes(imageRef, imageUpload).then((imageSnapshot) => { // dans imageRef, mets imageUpload 
+                getDownloadURL(imageSnapshot.ref).then((imageUrl) => {
+                    setImageList((prev) => [...prev, imageUrl]);
+                    console.log("imagelist : " + imageList)
+                });
+
+                // Téléchargement du texte
+                const textRef = ref(storage, `textes/${textUpload}`);
+                uploadBytes(textRef, textUpload).then((textSnapshot) => {
+                    getDownloadURL(textSnapshot.ref).then((textUrl) => {
+                        setTextList((prev) => [...prev, textUrl]);
+                        console.log("textList : " + textList)
+                    });
+                });
+            });
+        } catch (error) {
+            alert("An error occurred while uploading.");
+        }
+        // Réinitialisation du champ de téléchargement
+    }
     //------------------------------------------
-
-
     //------------------------------------------
-
-
     useEffect(() => {
         setImageList([]);
-        listAll(folderUrl)
+        listAll(folderUrlImg)
             .then((response) => {
 
                 response.items.forEach((item) => {
@@ -59,6 +90,10 @@ function Home() {
                     });
                 });
             })
+
+
+        //recup texte
+
 
 
     }, []);
@@ -71,6 +106,11 @@ function Home() {
     }
 
 
+    console.log("inputvalue :" + inputValue)
+
+
+
+
     return (
         <>
 
@@ -78,8 +118,8 @@ function Home() {
 
 
 
-            <Container className="  contentContainer" style={{}}>
-                <Row>
+            <Container className="   " style={{}}>
+                <Row className="">
                     <Col className="sideBar mt-4 " xs={12} md={4}>
 
                         <ListGroup variant="flush" className='text-center fw-semibold' >
@@ -91,6 +131,7 @@ function Home() {
                             <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
                                 <button onClick={uploadImage}>Upload Image</button>
                             </ListGroup.Item>
+                            <FormText inputValue={inputValue} handleInputChange={handleInputChange} />
 
                             <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
                                 <button onClick={logout}> Sign Out </button>
@@ -107,6 +148,7 @@ function Home() {
                                     return <>
                                         <div className='rowCentredwContent' >
                                             <FluidImage url={url} className="imgInside" />
+                                            <p></p>
                                         </div>
                                     </>
                                 })}
