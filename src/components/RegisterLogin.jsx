@@ -14,20 +14,18 @@ function RegisterLogin() {
     const navigate = useNavigate()
     const [userLoggedIn, setuserLoggedIn] = useState({})
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setuserLoggedIn(currentUser);
-            if (currentUser) {
-                alert('YOU ARE LOGGED IN --> Login page');
-                setTimeout(() => {
-                    navigate('/');
-                }, 500); // Attendre 500 ms (0,5 seconde) avant de naviguer vers '/Home'
-            }
-        });
+    // useEffect(() => {
+    //     const isLoggedIn = onAuthStateChanged(auth, (currentUser) => {
+    //         setuserLoggedIn(currentUser);
+    //         if (currentUser) {
+    //             console.log("user logged in : " + currentUser + "from register page")
 
-        // Nettoyez le souscripteur lorsque le composant est démonté
-        return () => unsubscribe();
-    }, [navigate]);
+    //         }
+    //     });
+
+    //     // Nettoyez le souscripteur lorsque le composant est démonté
+    //     return () => isLoggedIn();
+    // });
 
 
     const register = async () => {
@@ -45,16 +43,19 @@ function RegisterLogin() {
 
 
     const login = async () => {
-        try {
-            const loginMail = document.getElementById("loginMailId").value;
-            const loginPswd = document.getElementById("loginPswdId").value;
-            const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd); // log him in
-            dispatch({ type: "LOGIN", payload: user })
-            console.log(user)
-            return user;
-        } catch (error) {
-            console.log(error.message)
-        }
+
+        const loginMail = document.getElementById("loginMailId").value;
+        const loginPswd = document.getElementById("loginPswdId").value;
+        const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd) // log him in
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                dispatch({ type: "LOGIN", payload: user })
+                navitage("/")
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
 
 
     }
