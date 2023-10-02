@@ -33,12 +33,6 @@ function Home() {
     };
 
 
-    const FluidImage = (props) => {
-        return <img src={props.url} />;
-    }
-
-
-
     const uploadImage = (e) => {         //upload the image to the database
 
         if (imageUpload == null || inputValue == null) {
@@ -46,7 +40,7 @@ function Home() {
             return;
         }
 
-        const postId = v4()
+        const postId = `post-${v4()}`;
         const imageUploadName = imageUpload.name + "-" + postId;
         const textUpload = inputValue + "-" + postId
 
@@ -78,8 +72,17 @@ function Home() {
         // Réinitialisation du champ de téléchargement
     }
     //------------------------------------------
+    // Upload Done
+    // Display
     //------------------------------------------
+
+    const FluidImage = (props) => {
+        return <img src={props.url} />;
+    }
+
+
     useEffect(() => {
+
         setImageList([]);
         listAll(folderUrlImg)
             .then((response) => {
@@ -91,8 +94,26 @@ function Home() {
                 });
             })
 
+        setTextList([]);
+        listAll(folderUrlTxt)
+            .then((response) => {
+                response.items.forEach((item) => {
+                    getDownloadURL(item).then((url) => {
+                        setTextList((prev) => [...prev, url]);
+                    });
+                });
+            })
 
-        //recup texte
+        textList.map((url) => {
+            const parts = url.split('post');
+            if (parts.length === 2) {
+                const fileName = parts[0]; // Obtient le nom du fichier
+                const id = parts[1]; // Obtient l'ID
+
+                console.log('Nom du fichier :', fileName);
+                console.log('ID :', id);
+            }
+        })
 
 
 
@@ -105,18 +126,8 @@ function Home() {
 
     }
 
-
-    console.log("inputvalue :" + inputValue)
-
-
-
-
     return (
         <>
-
-
-
-
 
             <Container className="   " style={{}}>
                 <Row className="">
@@ -144,15 +155,19 @@ function Home() {
 
                         <div className='Home'>
                             <div>
-                                {imageList.map((url) => {
-                                    return <>
-                                        <div className='rowCentredwContent' >
-                                            <FluidImage url={url} className="imgInside" />
-                                            <p></p>
-                                        </div>
-                                    </>
-                                })}
-
+                                {
+                                    imageList.map((url) => {
+                                        return <>
+                                            <div className='rowCentredwContent' >
+                                                <FluidImage url={url} className="imgInside" />
+                                                {
+                                                    //ajoute une condition, si id de image = id de text afficher les 2 si on  ne rien faire
+                                                }
+                                                <p></p>
+                                            </div>
+                                        </>
+                                    })
+                                }
                             </div>
                         </div >
 
