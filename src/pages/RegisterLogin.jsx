@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from "../firebase";
 import '../style/App.css'
-import { useNavigate } from 'react-router-dom';
 
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import AuthContext from '../context/AuthContext'
@@ -11,21 +10,8 @@ import AuthContext from '../context/AuthContext'
 function RegisterLogin() {
 
     const { dispatch } = useContext(AuthContext)
-    const navigate = useNavigate()
     const [userLoggedIn, setuserLoggedIn] = useState({})
-
-    // useEffect(() => {
-    //     const isLoggedIn = onAuthStateChanged(auth, (currentUser) => {
-    //         setuserLoggedIn(currentUser);
-    //         if (currentUser) {
-    //             console.log("user logged in : " + currentUser + "from register page")
-
-    //         }
-    //     });
-
-    //     // Nettoyez le souscripteur lorsque le composant est démonté
-    //     return () => isLoggedIn();
-    // });
+    const { currentUser } = useContext(AuthContext) // recupere le dispatch
 
 
     const register = async () => {
@@ -33,8 +19,7 @@ function RegisterLogin() {
             const registerMail = document.getElementById("registerMailId").value;
             const registerPswd = document.getElementById("registerPswdId").value;
             const user = await createUserWithEmailAndPassword(auth, registerMail, registerPswd); //create a user and log him in
-            window.location.reload(); // Rafraîchit la page actuelle
-            // console.log(user)
+            window.location.pathname = "/"
             return user;
         } catch (error) {
             console.log(error.message)
@@ -43,15 +28,16 @@ function RegisterLogin() {
 
 
     const login = async () => {
-
         const loginMail = document.getElementById("loginMailId").value;
         const loginPswd = document.getElementById("loginPswdId").value;
         const user = await signInWithEmailAndPassword(auth, loginMail, loginPswd) // log him in
             .then((userCredential) => {
                 // Signed in
+                setuserLoggedIn(currentUser);
+
                 const user = userCredential.user;
                 dispatch({ type: "LOGIN", payload: user })
-                navitage("/")
+                window.location.pathname = "/"
             })
             .catch((error) => {
                 console.log(error.message)
