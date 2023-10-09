@@ -30,11 +30,7 @@ function Home() {
     const [imageList, setImageList] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [documents, setDocuments] = useState('')
-    const [imageStorageLink, setImageStorageLink] = useState([]);
-    const [urlStorageLink, setUrlStorageLink] = useState([]);
-    const collectionRef = collection(db, 'azerty');
-
-
+    const [collectionRef, setcollectionRef] = useState('')
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -60,54 +56,6 @@ function Home() {
                 });
             })
     }, []);
-
-
-    //GET IMAGES FROM STORAGE
-
-    imageList.map((url) => {
-        const urlString = url.toString()
-        const idFromLink = urlString.split("-post-")[1]
-        const idImageStorage = idFromLink.split("?alt=")[0];
-        imageStorageLink.push(idImageStorage); //array = idImages
-        urlStorageLink.push(url); //array = Link Images
-
-        return <>
-            <div className='rowCentredwContent' >
-                <FluidImage url={url} />
-            </div>
-        </>
-    })
-
-
-
-
-
-
-    //GET IMAGES FROM COLLECTION DB
-    useEffect(() => {
-
-        const getInfoFromDB = async () => {
-            const dataDocuments = await getDocs(collectionRef)
-            console.log("data = " + dataDocuments)
-
-
-
-        }
-
-
-        // getDocs(collectionRef)
-        //     // console.log(collectionRef)
-        //     .then((querySnapshot) => {
-        //         querySnapshot.forEach((doc) => {
-        //             docsData.push(doc.data());
-        //             console.log("Données du document:", documents);
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.error("Erreur lors de la récupération des documents:", error);
-        //     });
-    }, []);
-
 
 
     const logout = async () => {
@@ -138,27 +86,42 @@ function Home() {
                             <div>
                                 {   // RENDER THE POST + CAPTION
 
+                                    //GET IMAGES FROM STORAGE
+                                    imageList.map((url) => {
+                                        const urlString = url.toString()
+                                        const idFromLink = urlString.split("-post-")[1]
+                                        const idImageStorage = idFromLink.split("?alt=")[0];
 
+                                        {   //GET IMAGES FROM COLLECTION DB
+                                            const collectionRef = collection(db, 'azerty');
+                                            getDocs(collectionRef)
+                                                // console.log(collectionRef)
+                                                .then((querySnapshot) => {
+                                                    querySnapshot.forEach((doc) => {
+                                                        setDocuments(doc.data())
+                                                        // console.log("Données du document:", documents);
+                                                    });
+                                                })
+                                                .catch((error) => {
+                                                    console.error("Erreur lors de la récupération des documents:", error);
+                                                });
+                                        }
 
+                                        // RENDER MATCHING IDS
+                                        for (const key in documents) {
+                                            const docId = documents.imageId;
 
+                                            if (docId.toString() == idImageStorage.toString()) {
+                                                return <>
 
+                                                    <FluidImage url={url} />
+                                                    <p> {documents.caption} </p>
+                                                    <p>{documents.datePublication}</p>
 
-
-
-                                    // RENDER MATCHING IDS
-                                    // for (const key in documents) {
-                                    //     const docId = documents.imageId;
-
-                                    //     if (docId.toString() == idImageStorage.toString()) {
-                                    //         return <>
-
-                                    //             <FluidImage url={url} />
-                                    //             <p> {documents.caption} </p>
-                                    //             <p>{documents.datePublication}</p>
-
-                                    //         </>
-                                    //     }
-                                    // }
+                                                </>
+                                            }
+                                        }
+                                    })
                                 }
                             </div>
                         </div >

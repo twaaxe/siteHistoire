@@ -1,0 +1,102 @@
+import { Container, Row, Col } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage';
+import { storage, auth, db } from "../firebase";
+import { getDocs, collection } from 'firebase/firestore';
+import { signOut } from 'firebase/auth';
+
+import FormText from '../components/FormText';
+
+import '../style/App.css'
+import Justpage from './Justpage';
+
+function Home() {
+    const navigate = useNavigate();
+    const folderUrlImg = ref(storage, '/images');
+    const [imageList, setImageList] = useState([]);
+    const [inputValue, setInputValue] = useState('');
+    const [documents, setDocuments] = useState([]);
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    const FluidImage = (props) => {
+        return <img src={props.url} />;
+    }
+
+    useEffect(() => {
+        setImageList([]);
+        listAll(folderUrlImg)
+            .then((response) => {
+                const promises = response.items.map((item) => {
+                    return getDownloadURL(item);
+                });
+                return Promise.all(promises);
+            })
+            .then((urls) => {
+                setImageList(urls);
+                return getDocs(collection(db, 'azerty'));
+            })
+            .then((querySnapshot) => {
+                const docsData = [];
+                querySnapshot.forEach((doc) => {
+                    docsData.push(doc.data());
+                });
+                setDocuments(docsData);
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des données:", error);
+            });
+    }, []);
+
+    const logout = async () => {
+        await signOut(auth);
+        navigate('/RegisterLogin');
+    }
+
+    return (
+        <Container className="   " style={{}}>
+            <Row className="">
+                <Col className="sideBar mt-4 " xs={12} md={4}>
+                    <Row className="my-5">
+                        <Justpage />
+                    </Row>
+                </Col>
+                <Col className=" mx-auto " xs={12} md={8}>
+                    <div className='Home'>
+                        <div>
+                            {imageList.map((url) => {
+                                const urlString = url.toString();
+                                const idFromLink = urlString.split("-post-")[1];
+                                const idImageStorage = idFromLink.split("?alt=")[0];
+                                const matchingDoc = documents.find((doc) => documents.imageId.toString() === idImageStorage.toString());
+                                if (matchingDoc) {
+                                    return (
+                                        <div key={urlString}>
+                                            <FluidImage url={url} />
+                                            <p>{matchingDoc.caption}</p>
+                                            <p>{matchingDoc.datePublication}</p>
+                                        </div>
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })}
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+        </Container>
+    );
+}
+
+export default Home;
+
+
+
+
+
+
+CHATGPT
