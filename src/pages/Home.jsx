@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
 
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'; //utilisé pour specifier ou et comment stocker les images    -   storage seem to be a service (can't change it as a variable)
-import { storage, auth } from "../firebase";
+import { storage, auth, db } from "../firebase";
+import { doc, getDocs, collection, QuerySnapshot } from 'firebase/firestore'; // Importez collection et getDocs
+
 import { signOut } from 'firebase/auth';
 
 import { v4 } from 'uuid';
@@ -26,12 +28,9 @@ function Home() {
 
     const navigate = useNavigate()
     const folderUrlImg = ref(storage, '/images')
-    const folderUrlTxt = ref(storage, '/textes')
     const [imageList, setImageList] = useState([]);
-    const [imageUpload, setImageUpload] = useState(null)
     const [inputValue, setInputValue] = useState('');
-    const [textData, setTextData] = useState('');
-
+    const [documents, setDocuments] = useState('')
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -48,19 +47,16 @@ function Home() {
 
     useEffect(() => {
 
-
         setImageList([]);
         listAll(folderUrlImg)
             .then((response) => {
-
                 response.items.forEach((item) => {
-                    // console.log(item)
                     getDownloadURL(item).then((url) => {
                         setImageList((prev) => [...prev, url]);
                     });
+
                 });
             })
-        console.log(imageList)
     }, []);
 
 
@@ -70,49 +66,71 @@ function Home() {
 
     }
 
+
+    imageList.map((url) => {
+        // if (url.split('-post') == ) 
+
+    })
+
+
+
+
+
     return (
         <>
 
             <Container className="   " style={{}}>
                 <Row className="">
 
+                    {/* UPLOAD POST AND SIGN OUT */}
                     <Col className="sideBar mt-4 " xs={12} md={4}>
-                        <Row>
-                            {/* <ListGroup variant="flush" className='text-center fw-semibold' >
-
-                                <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
-                                    <input type="file" id="submitButton" onChange={(even) => { setImageUpload(even.target.files[0]) }} />
-                                </ListGroup.Item>
-
-                                <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
-                                    <button onClick={uploadImage}>Upload Image</button>
-                                </ListGroup.Item>
-                                <FormText inputValue={inputValue} handleInputChange={handleInputChange} />
-
-                                <ListGroup.Item action className="py-2" style={{ backgroundColor: "#F3E7D2" }}>
-                                    <button onClick={logout}> Sign Out </button>
-                                </ListGroup.Item>
-
-                            </ListGroup> */}
-                        </Row>
                         <Row className="my-5" >
                             <Justpage />
                         </Row>
-
-
                     </Col>
 
+                    {/* BODY OF APP */}
                     <Col className=" mx-auto " xs={12} md={8} >
-
                         <div className='Home'>
                             <div>
-                                {
+                                {   // RENDER THE POST + CAPTION
+
+                                    //GET IMAGES FROM STORAGE
                                     imageList.map((url) => {
-                                        return <>
-                                            <div className='rowCentredwContent' >
-                                                <FluidImage url={url} />
-                                            </div>
-                                        </>
+                                        const urlString = url.toString()
+                                        const idFromLink = urlString.split("-post-")[1]
+                                        const idImageStorage = idFromLink.split("?alt=")[0];
+
+                                        {   //GET IMAGES FROM COLLECTION DB
+                                            const idImageCollection = ""
+                                            const collectionRef = collection(db, 'azerty');
+                                            getDocs(collectionRef)
+                                                // console.log(collectionRef)
+                                                .then((querySnapshot) => {
+                                                    querySnapshot.forEach((doc) => {
+                                                        setDocuments(doc.data())
+                                                        // console.log("Données du document:", documents);
+                                                    });
+                                                })
+                                                .catch((error) => {
+                                                    console.error("Erreur lors de la récupération des documents:", error);
+                                                });
+                                        }
+
+                                        // RENDER MATCHING IDS
+                                        for (const key in documents) {
+                                            const docId = documents.imageId;
+
+                                            if (docId.toString() == idImageStorage.toString()) {
+                                                return <>
+
+                                                    <FluidImage url={url} />
+                                                    <p> {documents.caption} </p>
+                                                    <p>{documents.datePublication}</p>
+
+                                                </>
+                                            }
+                                        }
                                     })
                                 }
                             </div>
@@ -128,3 +146,4 @@ function Home() {
 }
 
 export default Home;
+

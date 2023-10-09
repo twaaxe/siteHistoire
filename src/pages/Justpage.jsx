@@ -41,18 +41,15 @@ function Justpage() {
             return;
         }
 
-        const id = v4().replace(/-/g, '')
-        const postId = `post-${id}`;
+        const imageId = v4().replace(/-/g, '')
+        const postId = `post-${imageId}`;
         const imageUploadName = imageUpload.name + "-" + postId;
-        const textUpload = inputValue + "-" + postId
-
-
 
         try {
 
-
             // Téléchargement de l'image
-            const imageRef = ref(storage, `images/${imageUploadName}`);
+            const path = `images/${imageUploadName}`
+            const imageRef = ref(storage, path);
             uploadBytes(imageRef, imageUpload).then((imageSnapshot) => { // dans imageRef, mets imageUpload 
                 getDownloadURL(imageSnapshot.ref).then((imageUrl) => {
                     setImageList((prev) => [...prev, imageUrl]);
@@ -60,13 +57,12 @@ function Justpage() {
             });
 
             alert('Image Upload Name:' + imageUploadName);
-            alert('Text Upload Name:' + textUpload);
             alert(("imageRef = " + `images/${imageUploadName}`))
+
             const author = currentUser.email;
             const caption = inputValue;
             const datePublication = new Date().toLocaleDateString();
-            const urlImage = `images/${imageUploadName}`
-            await addDoc(postsCollectionRef, { author, caption, datePublication, id });
+            await addDoc(postsCollectionRef, { author, caption, datePublication, path, imageId });
             window.location.pathname = "/";
 
 
@@ -76,7 +72,6 @@ function Justpage() {
         }
         // Réinitialisation du champ de téléchargement
     }
-
 
 
     return (
