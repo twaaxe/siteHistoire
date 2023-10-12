@@ -1,5 +1,9 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+import { useContext } from "react";
+import AuthContext from '../context/AuthContext'
+
+
 
 import { useNavigate } from 'react-router-dom';
 import { ListGroup } from 'react-bootstrap';
@@ -24,21 +28,19 @@ function Home() {
     //------------------------------------------
     // Upload
     //------------------------------------------
+    const { currentUser } = useContext(AuthContext) // recupere le dispatch
 
     const navigate = useNavigate()
-    const folderUrlImg = ref(storage, '/images')
+    // const folderUrlImg = ref(storage, '/images')
+    const folderUrlImg = ref(storage, `images/${currentUser.email}`)
+
     const [imageList, setImageList] = useState([]);
     const [inputValue, setInputValue] = useState('');
     const [documents, setDocuments] = useState('')
     const [imageStorageLink, setImageStorageLink] = useState([]);
     const [urlStorageLink, setUrlStorageLink] = useState([]);
     const collectionRef = collection(db, 'azerty');
-
-
-
-    const handleInputChange = (event) => {
-        setInputValue(event.target.value);
-    };
+    const docsData = []
 
     //------------------------------------------
     // Display
@@ -56,112 +58,82 @@ function Home() {
                 response.items.forEach((item) => {
                     getDownloadURL(item).then((url) => {
                         setImageList((prev) => [...prev, url]);
+
                     });
                 });
             })
+
+
+
     }, []);
-
-
-    //GET IMAGES FROM STORAGE
-
-    imageList.map((url) => {
-        const urlString = url.toString()
-        const idFromLink = urlString.split("-post-")[1]
-        const idImageStorage = idFromLink.split("?alt=")[0];
-        imageStorageLink.push(idImageStorage); //array = idImages
-        urlStorageLink.push(url); //array = Link Images
-
-        return <>
-            <div className='rowCentredwContent' >
-                <FluidImage url={url} />
-            </div>
-        </>
-    })
-
-
-
-
 
 
     //GET IMAGES FROM COLLECTION DB
     useEffect(() => {
-
-        const getInfoFromDB = async () => {
-            const dataDocuments = await getDocs(collectionRef)
-            console.log("data = " + dataDocuments)
-
-
-
-        }
-
-
-        // getDocs(collectionRef)
-        //     // console.log(collectionRef)
-        //     .then((querySnapshot) => {
-        //         querySnapshot.forEach((doc) => {
-        //             docsData.push(doc.data());
-        //             console.log("Données du document:", documents);
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.error("Erreur lors de la récupération des documents:", error);
-        //     });
+        getDocs(collectionRef)
+            // console.log(collectionRef)
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    if (doc) {
+                        docsData.push(doc.data());
+                    }
+                    setDocuments(docsData)
+                    // console.log("Données de docsata:", docsData);
+                });
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des documents:", error);
+            });
     }, []);
 
 
 
-    const logout = async () => {
-        await signOut(auth)
-        navigate('/RegisterLogin');
+    // RENDER MATCHING IDS
+    const renderingPost = () => {
+        return (
+            <div>
 
+                {imageList.map((url) => {
+                    const urlString = url.toString();
+                    const idFromLink = urlString.split("-post-")[1];
+                    const idImageStorage = idFromLink.split("?alt=")[0];
+                    const matchingDocs = documents.filter((doc) => doc.imageId === idImageStorage);
+                    // console.log("imagelist ", imageList)
+                    // console.log("matchingDocs", matchingDocs)
+
+                    return matchingDocs.map((doc) => (
+                        <div key={doc.imageId}>
+                            <FluidImage url={url} />
+                            <p>{doc.caption}</p>
+                            <p>{doc.datePublication}</p>
+                        </div>
+                    ));
+                })}
+            </div>
+        );
     }
-
-
 
 
     return (
         <>
 
-            <Container className="   " style={{}}>
-                <Row className="">
+            <Container className=" p-0 m-0 d-flex justify-content-between    " style={{}}>
+                <Row className="d-flex justify-content-between">
 
                     {/* UPLOAD POST AND SIGN OUT */}
-                    <Col className="sideBar mt-4 " xs={12} md={4}>
+                    <Col className="sideBar mt-4 mx-auto " xs={12} md={2}>
                         <Row className="my-5" >
                             <Justpage />
                         </Row>
                     </Col>
 
                     {/* BODY OF APP */}
-                    <Col className=" mx-auto " xs={12} md={8} >
-                        <div className='Home'>
-                            <div>
-                                {   // RENDER THE POST + CAPTION
+                    <Col className=" mx-auto Home" xs={12} md={10} >
 
+                        {   // RENDER THE POST + CAPTION
+                            renderingPost()
 
-
-
-
-
-
-
-                                    // RENDER MATCHING IDS
-                                    // for (const key in documents) {
-                                    //     const docId = documents.imageId;
-
-                                    //     if (docId.toString() == idImageStorage.toString()) {
-                                    //         return <>
-
-                                    //             <FluidImage url={url} />
-                                    //             <p> {documents.caption} </p>
-                                    //             <p>{documents.datePublication}</p>
-
-                                    //         </>
-                                    //     }
-                                    // }
-                                }
-                            </div>
-                        </div >
+                        }
 
                     </Col>
                 </Row>

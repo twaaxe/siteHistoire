@@ -11,7 +11,7 @@ function FormText({ inputValue, handleInputChange }) {
                 value={inputValue}
             />
             <Form.Text id="passwordHelpBlock" muted>
-                Enter text with this image
+                Enter Caption
             </Form.Text>
         </div>
     );

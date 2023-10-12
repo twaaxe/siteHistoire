@@ -17,6 +17,9 @@ export default function Header() {
                 <Nav.Item>
                     <Nav.Link href="/Justpage">Just page</Nav.Link>
                 </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link href="/AllCollection">All Collection</Nav.Link>
+                </Nav.Item>
             </Nav>
         </>
     );

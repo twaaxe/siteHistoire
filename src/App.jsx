@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
 import Home from './pages/Home'
 import RegisterLogin from './pages/RegisterLogin'
 import Justpage from "./pages/Justpage";
+import AllCollection from "./pages/AllCollection"
 
 import Header from "./components/Header";
 
@@ -18,7 +19,7 @@ function App() {
   const RequireAuth = ({ children }) => {
     return currentUser ? (children) : <Navigate to="/RegisterLogin" />
   }
-  // console.log("from app.jsx " + currentUser.email)
+  console.log("from app.jsx  " + currentUser)
 
 
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/" element={<RequireAuth> <Home /> </RequireAuth>} />
         <Route path="RegisterLogin" element={<RegisterLogin />} />
         <Route path="Justpage" element={<RequireAuth> <Justpage />  </RequireAuth>} />
+        <Route path="AllCollection" element={<RequireAuth> <AllCollection /> </RequireAuth>} />
+
 
       </Routes>
     </BrowserRouter>

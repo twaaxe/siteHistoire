@@ -1,10 +1,14 @@
-import { useContext, useState, useEffect } from 'react'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import { useContext, useState } from 'react'
+import { createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword } from 'firebase/auth'
+import AuthContext from '../context/AuthContext'
 import { auth } from "../firebase";
 import '../style/App.css'
-
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import AuthContext from '../context/AuthContext'
+import LogoutButton from '../components/LogoutButton';
+
+
+
+
 
 
 function RegisterLogin() {
@@ -48,6 +52,7 @@ function RegisterLogin() {
 
     const logout = async () => {
         await signOut(auth)
+        dispatch({ type: "LOGOUT" });
         window.location.reload();
     }
 
@@ -81,14 +86,14 @@ function RegisterLogin() {
                                     </Form.Group>
                                     <div className='divButton d-flex flex-column my-5'>
                                         <Button onClick={login} variant="primary">Login</Button>
+
                                     </div>
                                 </div>
                             </div>
                         </Form>
                     </Col>
                 </Row>
-                <button onClick={logout}> Sign Out </button>
-
+                <LogoutButton />
             </Container>
         </>
 
