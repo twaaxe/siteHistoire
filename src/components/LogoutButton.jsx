@@ -9,6 +9,7 @@ export default function LogoutButton() {
         try {
             // await signOut(auth); // Assurez-vous d'importer et de configurer "auth" correctement
             dispatch({ type: "LOGOUT" });
+            localStorage.setItem("user", "null");
             window.location.reload();
         } catch (error) {
             console.error("Erreur lors de la déconnexion : ", error);

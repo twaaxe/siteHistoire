@@ -38,6 +38,7 @@ function RegisterLogin() {
             .then((userCredential) => {
                 // Signed in
                 setuserLoggedIn(currentUser);
+                alert(userCredential)
 
                 const user = userCredential.user;
                 dispatch({ type: "LOGIN", payload: user })
@@ -59,41 +60,46 @@ function RegisterLogin() {
     return (
         <>
 
-            <Container fluid className="d-flex justify-content-center align-items-center h-100">
-                <Row>
-                    <Col md={12} className="  RegisterLogin">
-                        <Form>
-                            <div id="formContainer">
-                                <div className='Register'>
-                                    <h3>Register User</h3>
-                                    <Form.Group controlId="registerMailId">
-                                        <Form.Control type="email" placeholder="Email..." />
-                                    </Form.Group>
-                                    <Form.Group controlId="registerPswdId">
-                                        <Form.Control type="password" placeholder="Password..." />
-                                    </Form.Group>
-                                    <div className='divButton d-flex flex-column my-5'>
-                                        <Button onClick={register} variant="primary">Create User</Button>
-                                    </div>
-                                </div>
-                                <div className='Login my-5'>
-                                    <h3>Login</h3>
-                                    <Form.Group controlId="loginMailId">
-                                        <Form.Control type="email" placeholder="Email..." />
-                                    </Form.Group>
-                                    <Form.Group controlId="loginPswdId">
-                                        <Form.Control type="password" placeholder="Password..." />
-                                    </Form.Group>
-                                    <div className='divButton d-flex flex-column my-5'>
-                                        <Button onClick={login} variant="primary">Login</Button>
+            <Container fluid className=" justify-content-center  mt-5 " style={{ height: "100vh", width: "65%" }}>
 
-                                    </div>
-                                </div>
-                            </div>
-                        </Form>
-                    </Col>
+
+                <Row>
+                    <div className='Register'>
+                        <h3 className='my-3'>Register User</h3>
+                        <Form.Group controlId="registerMailId">
+                            <Form.Control className='my-3' type="email" placeholder="Email..." />
+                        </Form.Group>
+                        <Form.Group controlId="registerPswdId">
+                            <Form.Control type="password" placeholder="Password..." />
+                        </Form.Group>
+                        <div className='divButton d-flex flex-column my-5'>
+                            <Button onClick={register} variant="primary">Create User</Button>
+                        </div>
+                    </div>
                 </Row>
-                <LogoutButton />
+
+
+
+                <Row>
+                    <div className='Login my-3'>
+                        <h3 className='my-3'>Login</h3>
+                        <Form.Group controlId="loginMailId">
+                            <Form.Control className='my-3' type="email" placeholder="Email..." />
+                        </Form.Group>
+                        <Form.Group controlId="loginPswdId">
+                            <Form.Control type="password" placeholder="Password..." />
+                        </Form.Group>
+                        <div className='divButton d-flex flex-column my-5'>
+                            <Button onClick={login} variant="primary">Login</Button>
+
+                        </div>
+                    </div>
+                </Row>
+                <Row className="w-50 mx-auto    justify-content-center">
+                    <LogoutButton />
+                </Row>
+
+
             </Container>
         </>
 

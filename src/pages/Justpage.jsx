@@ -76,7 +76,7 @@ function Justpage() {
 
 
     return (
-        <Container>
+        <Container style={{ height: "100vh" }}>
             <Row>
                 <Col className='my-3 ' >
                     <Col className='my-3 '>

@@ -20,6 +20,7 @@ import FormText from '../components/FormText';
 import '../style/App.css'
 import Justpage from './Justpage';
 
+import Caroussel from "../components/Caroussel"
 
 
 function Home() {
@@ -36,7 +37,7 @@ function Home() {
 
     const [imageList, setImageList] = useState([]);
     const [inputValue, setInputValue] = useState('');
-    const [documents, setDocuments] = useState('')
+    const [documents, setDocuments] = useState([])
     const [imageStorageLink, setImageStorageLink] = useState([]);
     const [urlStorageLink, setUrlStorageLink] = useState([]);
     const collectionRef = collection(db, 'azerty');
@@ -97,9 +98,18 @@ function Home() {
                     const urlString = url.toString();
                     const idFromLink = urlString.split("-post-")[1];
                     const idImageStorage = idFromLink.split("?alt=")[0];
+
                     const matchingDocs = documents.filter((doc) => doc.imageId === idImageStorage);
-                    // console.log("imagelist ", imageList)
-                    // console.log("matchingDocs", matchingDocs)
+                    const uniqueMatchingDocs = new Set();
+                    const filteredMatchingDocs = matchingDocs.filter((doc) => {
+                        if (!uniqueMatchingDocs.has(doc.imageId)) {
+                            uniqueMatchingDocs.add(doc.imageId);
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    console.log("matchingDocs", matchingDocs)
 
                     return matchingDocs.map((doc) => (
                         <div key={doc.imageId}>
@@ -117,7 +127,7 @@ function Home() {
     return (
         <>
 
-            <Container className=" p-0 m-0 d-flex justify-content-between    " style={{}}>
+            <Container className=" p-0 m-0 d-flex justify-content-between    " style={{ width: "100%", height: "100vh" }}>
                 <Row className="d-flex justify-content-between">
 
                     {/* UPLOAD POST AND SIGN OUT */}

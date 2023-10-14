@@ -61,21 +61,6 @@ img {
 }
 
 
-.RegisterLogin {
-    margin: 5% auto;
-}
-
-
-RegisterLogin>div {
-    width: 100%;
-    padding: 5%;
-}
-
-RegisterLogin>div>input {
-    margin: 2% auto;
-    width: 100%;
-}
-
 .divButton>button {
     width: auto;
 }

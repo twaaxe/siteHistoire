@@ -15,9 +15,9 @@ export default AuthContext;
 export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-    useEffect(() => {
-        localStorage.setItem("user", JSON.stringify(state.currentUser));
-    }, [state.currentUser]);
+    // useEffect(() => { 
+    //         localStorage.setItem("user", JSON.stringify(state.currentUser));
+    // }, [state.currentUser]);
 
     useEffect(() => {
         localStorage.setItem("user", JSON.stringify(state.currentUser)) // store the connexion
