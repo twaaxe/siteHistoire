@@ -7,10 +7,7 @@ import Justpage from './Justpage';
 
 
 
-
-
 function AllCollection() {
-
     const FluidImage = (props) => {
         return <img src={props.url} />;
     }
@@ -50,7 +47,6 @@ function AllCollection() {
 
 
     //RENDERING
-
     const renderingAllPost = () => {
         return (
             imageList.map((url, index) => (
@@ -58,10 +54,6 @@ function AllCollection() {
             ))
         );
     }
-
-
-
-
 
 
 
@@ -79,17 +71,12 @@ function AllCollection() {
 
                 {/* BODY OF APP */}
                 <Col className=" mx-auto Home" xs={12} md={10} >
-
                     {   // RENDER THE POST + CAPTION
                         renderingAllPost()
                     }
-
                 </Col>
             </Row>
         </Container >
-
-
-
     )
 }
 

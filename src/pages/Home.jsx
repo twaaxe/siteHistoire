@@ -17,9 +17,7 @@ function Home() {
     // Upload
     //------------------------------------------
     const { currentUser } = useContext(AuthContext) // recupere le dispatch
-
     const folderUrlImg = ref(storage, `images/${currentUser.email}`)
-
     const [imageList, setImageList] = useState([]);
     const [documents, setDocuments] = useState([])
     const collectionRef = collection(db, 'azerty');
@@ -33,6 +31,7 @@ function Home() {
         return <img src={props.url} />;
     }
 
+
     // GET IMAGES FROM STORAGE
     useEffect(() => {
         setImageList([]);
@@ -45,25 +44,18 @@ function Home() {
                     });
                 });
             })
-
-
-
     }, []);
-
-    console.log("azazz", folderUrlImg)
 
 
     //GET IMAGES FROM COLLECTION DB
     useEffect(() => {
         getDocs(collectionRef)
-            // console.log(collectionRef)
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     if (doc) {
                         docsData.push(doc.data());
                     }
                     setDocuments(docsData)
-                    // console.log("Données de docsata:", docsData);
                 });
             })
             .catch((error) => {
@@ -94,9 +86,6 @@ function Home() {
                     //     }
                     //     return false;
                     // });
-
-                    console.log("matchingDocs", imageList)
-
                     return matchingDocs.map((doc) => (
                         <div key={doc.imageId}>
                             <FluidImage url={url} />
