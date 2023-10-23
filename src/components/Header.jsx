@@ -8,7 +8,7 @@ import Nav from 'react-bootstrap/Nav';
 export default function Header() {
     return (
         <>
-            <Nav className=" header justify-content-center my-3 fw-bolder fs-2">
+            <Nav className=" header justify-content-center m-0 mb-3 fw-bolder fs-2">
                 <Nav.Item>
                     <Nav.Link href="/">Home</Nav.Link>
                 </Nav.Item>

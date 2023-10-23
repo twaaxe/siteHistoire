@@ -59,11 +59,11 @@ function AllCollection() {
 
     return (
 
-        <Container className=" p-0 m-0 d-flex justify-content-between    " style={{ width: "100%", height: "100vh" }}>
+        <Container className="" style={{ width: "100%", height: "100vh" }}>
             <Row className="d-flex justify-content-between">
 
                 {/* UPLOAD POST AND SIGN OUT */}
-                <Col className="sideBar mt-4 mx-auto " xs={12} md={2}>
+                <Col className="sideBar mt-4  " xs={12} md={2}>
                     <Row className="my-5" >
                         <Justpage />
                     </Row>

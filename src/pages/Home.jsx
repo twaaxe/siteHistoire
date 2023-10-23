@@ -86,6 +86,8 @@ function Home() {
                     //     }
                     //     return false;
                     // });
+
+
                     return matchingDocs.map((doc) => (
                         <div key={doc.imageId}>
                             <FluidImage url={url} />
@@ -102,18 +104,16 @@ function Home() {
     return (
         <>
 
-            <Container className=" p-0 m-0 d-flex justify-content-between    " style={{ width: "100%", height: "100vh" }}>
-                <Row className="d-flex justify-content-between">
-
+            <Container className="" style={{ width: "100%", height: "100vh" }}>
+                <Row className="d-flex justify-content-between" >
                     {/* UPLOAD POST AND SIGN OUT */}
-                    <Col className="sideBar mt-4 mx-auto " xs={12} md={2}>
-                        <Row className="my-5" >
-                            <Justpage />
-                        </Row>
+                    <Col className="sideBar mt-4" xs={12} md={2} >
+                        <Justpage />
                     </Col>
+                    {/* <Col md={2}></Col> */}
 
                     {/* BODY OF APP */}
-                    <Col className=" mx-auto Home" xs={12} md={10} >
+                    <Col className=" mx-auto Home" xs={12} md={8} >
 
                         {   // RENDER THE POST + CAPTION
                             renderingPost()

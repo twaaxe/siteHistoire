@@ -19,8 +19,7 @@ body {
     justify-content: center;
     flex-direction: column;
     padding: 25% auto 25% auto;
-    /* padding: 25%; */
-
+    width: 100%;
 }
 
 /* HOME */
