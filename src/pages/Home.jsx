@@ -3,43 +3,25 @@ import { useState, useEffect } from 'react';
 import { useContext } from "react";
 import AuthContext from '../context/AuthContext'
 
-
-
-import { useNavigate } from 'react-router-dom';
-import { ListGroup } from 'react-bootstrap';
-
-import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'; //utilisé pour specifier ou et comment stocker les images    -   storage seem to be a service (can't change it as a variable)
-import { storage, auth, db } from "../firebase";
-import { doc, getDocs, collection, QuerySnapshot } from 'firebase/firestore'; // Importez collection et getDocs
-
-import { signOut } from 'firebase/auth';
-
-
-import FormText from '../components/FormText';
+import { ref, listAll, getDownloadURL } from 'firebase/storage'; //utilisé pour specifier ou et comment stocker les images    -   storage seem to be a service (can't change it as a variable)
+import { storage, db } from "../firebase";
+import { getDocs, collection } from 'firebase/firestore'; // Importez collection et getDocs
 
 import '../style/App.css'
 import Justpage from './Justpage';
 
-import Caroussel from "../components/Caroussel"
 
 
 function Home() {
-
-
     //------------------------------------------
     // Upload
     //------------------------------------------
     const { currentUser } = useContext(AuthContext) // recupere le dispatch
 
-    const navigate = useNavigate()
-    // const folderUrlImg = ref(storage, '/images')
     const folderUrlImg = ref(storage, `images/${currentUser.email}`)
 
     const [imageList, setImageList] = useState([]);
-    const [inputValue, setInputValue] = useState('');
     const [documents, setDocuments] = useState([])
-    const [imageStorageLink, setImageStorageLink] = useState([]);
-    const [urlStorageLink, setUrlStorageLink] = useState([]);
     const collectionRef = collection(db, 'azerty');
     const docsData = []
 
@@ -51,7 +33,7 @@ function Home() {
         return <img src={props.url} />;
     }
 
-
+    // GET IMAGES FROM STORAGE
     useEffect(() => {
         setImageList([]);
         listAll(folderUrlImg)
@@ -67,6 +49,8 @@ function Home() {
 
 
     }, []);
+
+    console.log("azazz", folderUrlImg)
 
 
     //GET IMAGES FROM COLLECTION DB
@@ -99,17 +83,19 @@ function Home() {
                     const idFromLink = urlString.split("-post-")[1];
                     const idImageStorage = idFromLink.split("?alt=")[0];
 
-                    const matchingDocs = documents.filter((doc) => doc.imageId === idImageStorage);
-                    const uniqueMatchingDocs = new Set();
-                    const filteredMatchingDocs = matchingDocs.filter((doc) => {
-                        if (!uniqueMatchingDocs.has(doc.imageId)) {
-                            uniqueMatchingDocs.add(doc.imageId);
-                            return true;
-                        }
-                        return false;
-                    });
 
-                    console.log("matchingDocs", matchingDocs)
+                    const matchingDocs = documents.filter((doc) => doc.imageId === idImageStorage);
+
+                    // const uniqueMatchingDocs = new Set();
+                    // const filteredMatchingDocs = matchingDocs.filter((doc) => {
+                    //     if (!uniqueMatchingDocs.has(doc.imageId)) {
+                    //         uniqueMatchingDocs.add(doc.imageId);
+                    //         return true;
+                    //     }
+                    //     return false;
+                    // });
+
+                    console.log("matchingDocs", imageList)
 
                     return matchingDocs.map((doc) => (
                         <div key={doc.imageId}>
