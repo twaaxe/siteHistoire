@@ -29,7 +29,7 @@ function App() {
         <Route path="/" element={<RequireAuth> <Home /> </RequireAuth>} />
         <Route path="RegisterLogin" element={<RegisterLogin />} />
         <Route path="Justpage" element={<RequireAuth> <Justpage />  </RequireAuth>} />
-        <Route path="AllCollection" element={<RequireAuth> <AllCollection /> </RequireAuth>} />
+        <Route path="AllCollection" element={<AllCollection />} />
 
 
       </Routes>

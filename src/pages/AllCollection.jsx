@@ -65,7 +65,7 @@ function AllCollection() {
                 {/* UPLOAD POST AND SIGN OUT */}
                 <Col className="sideBar mt-4  " xs={12} md={2}>
                     <Row className="my-5" >
-                        <Justpage />
+                        {/* <Justpage /> */}
                     </Row>
                 </Col>
 

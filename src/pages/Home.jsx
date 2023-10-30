@@ -39,7 +39,12 @@ function Home() {
             .then((response) => {
                 response.items.forEach((item) => {
                     getDownloadURL(item).then((url) => {
-                        setImageList((prev) => [...prev, url]);
+                        setImageList((prev) => {
+                            if (!prev.includes(url)) {
+                                return [...prev, url];
+                            }
+                            return prev;
+                        });
 
                     });
                 });
@@ -69,25 +74,13 @@ function Home() {
     const renderingPost = () => {
         return (
             <div>
-
+                {console.log(imageList)}
                 {imageList.map((url) => {
                     const urlString = url.toString();
                     const idFromLink = urlString.split("-post-")[1];
                     const idImageStorage = idFromLink.split("?alt=")[0];
 
-
                     const matchingDocs = documents.filter((doc) => doc.imageId === idImageStorage);
-
-                    // const uniqueMatchingDocs = new Set();
-                    // const filteredMatchingDocs = matchingDocs.filter((doc) => {
-                    //     if (!uniqueMatchingDocs.has(doc.imageId)) {
-                    //         uniqueMatchingDocs.add(doc.imageId);
-                    //         return true;
-                    //     }
-                    //     return false;
-                    // });
-
-
                     return matchingDocs.map((doc) => (
                         <div key={doc.imageId}>
                             <FluidImage url={url} />
@@ -99,6 +92,8 @@ function Home() {
             </div>
         );
     }
+
+
 
 
     return (
